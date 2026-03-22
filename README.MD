@@ -16,22 +16,25 @@
 ## 설치 및 실행 방법
 
 ### 1. 저장소 클론
-```pyton
+```bash
 git clone [https://github.com/사용자계정/프로젝트명.git](https://github.com/사용자계정/프로젝트명.git)
 cd 프로젝트명
+```
 
 ### 2. 가상환경 생성 및 활성화 그리고 필요 라이브러리설치
-```pyton
+```bash
 python -m venv venv
 source venv/scripts/activate  # Windows 환경
 pip install -r requirements.txt
-
+```
 ### 3. 환경 변수 설정
 
 .env 파일을 루트 디렉토리에 생성하고 OpenAI API 키를 입력한다
-```pyton
+```bash
 OPENAI_API_KEY=your_api_key_here
+```
 
 ### 4. 실행
-```pyton
+```bash
 streamlit run app.py
+```
