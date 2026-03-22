@@ -18,7 +18,7 @@ from langchain_core.output_parsers import StrOutputParser  # 출력 파서
 load_dotenv()
 
 # 페이지 설정
-st.set_page_config(page_title="Samsung Card Manual Bot", page_icon="💾")
+st.set_page_config(page_title="Samsung Card Manual Bot")
 
 # 캐싱을 통해 매번 PDF를 다시 로드하고 임베딩하지 않도록 설정
 @st.cache_resource
