@@ -91,12 +91,31 @@ else:
         with st.chat_message("user"):
             st.markdown(prompt)
 
-        # 챗봇 응답 생성 및 표시
-        with st.chat_message("assistant"):
-            with st.spinner("답변을 생성 중입니다..."):
-                response = rag_chain.invoke(prompt)
-                st.markdown(response)
+        # # 챗봇 응답 생성 및 표시
+        # with st.chat_message("assistant"):
+        #     with st.spinner("답변을 생성 중입니다..."):
+        #         response = rag_chain.invoke(prompt)
+        #         st.markdown(response)
         
-        # 응답 저장
-        st.session_state.messages.append({"role": "assistant", "content": response})
+        # # 응답 저장
+        # st.session_state.messages.append({"role": "assistant", "content": response})
+
+        # 챗봇 응답 생성 및 표시 (Streaming 버전)
+        with st.chat_message("assistant"):
+            # 응답이 들어올 빈 공간을 먼저 만듭니다.
+            container = st.empty()
+            full_response = ""
+            
+            # rag_chain.stream을 사용하여 토큰을 하나씩 가져옵니다.
+            # (참고: ChatOpenAI 모델 설정 시 streaming=True가 기본값이거나 자동으로 처리됩니다)
+            for chunk in rag_chain.stream(prompt):
+                full_response += chunk
+                # 빈 공간에 현재까지 쌓인 응답을 실시간으로 업데이트합니다.
+                container.markdown(full_response + "▌") 
+            
+            # 최종 응답 출력 (커서 제거)
+            container.markdown(full_response)
+        
+        # 세션 상태에 최종 응답 저장
+        st.session_state.messages.append({"role": "assistant", "content": full_response})
      
