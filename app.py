@@ -23,7 +23,7 @@ st.set_page_config(page_title="Samsung Card Manual Bot")
 # 캐싱을 통해 매번 PDF를 다시 로드하고 임베딩하지 않도록 설정
 @st.cache_resource
 def prepare_rag_chain():
-    # PDF 로드 (경로 주의: data 폴더 안에 파일이 있어야 함)
+    # PDF 로드
     pdf_path = "data/Samsung_Card_Manual_Korean_1.3.pdf"
     if not os.path.exists(pdf_path):
         return None
@@ -54,7 +54,7 @@ def prepare_rag_chain():
     한글로 간결하고 정확하게 답변하라.
     """)
 
-    # RAG 체인 구성 (모델명은 실제 사용 가능한 gpt-4o-mini 등으로 변경 권장)
+    # RAG 체인 구성 
     model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
     
     chain = (
@@ -106,11 +106,10 @@ else:
             container = st.empty()
             full_response = ""
             
-            # rag_chain.stream을 사용하여 토큰을 하나씩 가져옵니다.
-            # (참고: ChatOpenAI 모델 설정 시 streaming=True가 기본값이거나 자동으로 처리됩니다)
+            # rag_chain.stream을 사용하여 토큰을 하나씩 가져오기           
             for chunk in rag_chain.stream(prompt):
                 full_response += chunk
-                # 빈 공간에 현재까지 쌓인 응답을 실시간으로 업데이트합니다.
+                # 빈 공간에 현재까지 쌓인 응답을 실시간으로 업데이트
                 container.markdown(full_response + "▌") 
             
             # 최종 응답 출력 (커서 제거)
